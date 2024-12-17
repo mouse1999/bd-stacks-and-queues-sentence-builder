@@ -1,10 +1,18 @@
+import java.util.Iterator;
+import java.util.ListIterator;
+import java.util.Stack;
+
 public class SentenceBuilder {
+
+
+    private Stack<String> messageStack;
+
 
     /**
      * Constructor.
      */
     public SentenceBuilder() {
-
+        messageStack = new Stack<>();
     }
 
     /**
@@ -12,6 +20,7 @@ public class SentenceBuilder {
      * @param word to be added to the sentence.
      */
     public void addWord(String word) {
+        messageStack.push(word);
 
     }
 
@@ -20,7 +29,11 @@ public class SentenceBuilder {
      * @return The word most recently added to the sentence, if any; null, otherwise.
      */
     public String undo() {
-        return null;
+        if (messageStack.isEmpty()) {
+            return null;
+        }
+
+        return messageStack.pop();
     }
 
     /**
@@ -28,6 +41,19 @@ public class SentenceBuilder {
      * @return string representation of the words currently in the sentence.
      */
     public String getSentenceWords() {
-        return "[]";
+
+        StringBuilder wordsBuilder = new StringBuilder("[");
+        Iterator<String> iterator = messageStack.iterator();
+
+        while (iterator.hasNext()) {
+            wordsBuilder.append(iterator.next());
+            if (iterator.hasNext()) {
+                wordsBuilder.append(", ");
+            }
+        }
+
+        wordsBuilder.append("]");
+        return wordsBuilder.toString();
     }
+
 }
